@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guidance | EduBridge AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobileTopbar">
+    <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <span style="font-family:var(--font-display);font-weight:800;font-size:1.1rem;">EduBridge AI</span>
+    <div class="avatar" style="width:36px;height:36px;font-size:1.05rem;">S</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="dashboard-layout">
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../../index.html" class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="sidebar-brand-text">EduBridge AI</span>
+        </a>
+
+        <span class="sidebar-section-label">Main Navigation</span>
+        
+        <a href="student-dashboard.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-house"></i></div>
+            <span>Dashboard</span>
+        </a>
+        <a href="scholarships.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+            <span>Explore Scholarships</span>
+        </a>
+        <a href="applications.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <span>My Applications</span>
+        </a>
+        <span class="sidebar-section-label">Tools</span>
+        <a href="funding-planner.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-calculator"></i></div>
+            <span>Funding Planner</span>
+        </a>
+        <a href="ai-chat.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <span>AI Assistant</span>
+        </a>
+        <a href="career.html" class="nav-item active">
+            <div class="nav-item-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <span>Career Guidance</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <span>Document Vault</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout(event)">
+                <div class="nav-item-icon" style="color:var(--clr-danger)"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
+        <div class="page-content">
+            
+            <div class="top-header animate-fade-up">
+                <div>
+                    <h1 class="page-title">Career Guidance</h1>
+                    <p class="page-subtitle">Explore career paths and discover funding specific to your goals.</p>
+                </div>
+            </div>
+
+            <!-- Featured Banner -->
+            <div class="animate-fade-up delay-1" style="
+                background: var(--grad-brand-vivid);
+                border-radius: var(--r-2xl);
+                padding: var(--sp-8);
+                margin-bottom: var(--sp-8);
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                position:relative;
+                overflow:hidden;
+            ">
+                <div style="position:relative;z-index:1;">
+                    <div class="badge badge-primary mb-4" style="background:rgba(0,0,0,0.3);color:#fff;border:none;">Featured Path</div>
+                    <h2 style="font-size:2rem;color:#fff;margin-bottom:var(--sp-2);">Technology & Engineering</h2>
+                    <p style="color:rgba(255,255,255,0.8);max-width:500px;margin-bottom:var(--sp-4);">
+                        Discover top opportunities in AI, Data Science, and core engineering. 
+                        Over 45 specialized scholarships available for this track.
+                    </p>
+                    <button class="btn btn-primary" style="background:#fff;color:var(--clr-primary);"><i class="fa-solid fa-compass"></i> Explore Tech Path</button>
+                </div>
+                <i class="fa-solid fa-microchip" style="font-size:12rem;color:rgba(255,255,255,0.1);position:absolute;right:2rem;top:-2rem;"></i>
+            </div>
+
+            <!-- Categories -->
+            <h3 class="mb-4 animate-fade-up delay-2">Career Categories</h3>
+            <div class="three-col-grid animate-fade-up delay-3 mb-8">
+                <div class="glass-card">
+                    <div class="stat-card-icon purple"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h4 class="mb-1">Technology & IT</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">45 Scholarships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+                <div class="glass-card">
+                    <div class="stat-card-icon green"><i class="fa-solid fa-stethoscope"></i></div>
+                    <h4 class="mb-1">Medicine & Healthcare</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">32 Scholarships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+                <div class="glass-card">
+                    <div class="stat-card-icon blue"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4 class="mb-1">Law & Social Sciences</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">18 Scholarships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+                 <div class="glass-card">
+                    <div class="stat-card-icon orange"><i class="fa-solid fa-chart-line"></i></div>
+                    <h4 class="mb-1">Business & Management</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">24 Scholarships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+                 <div class="glass-card">
+                    <div class="stat-card-icon" style="background:rgba(239,68,68,0.15);color:var(--clr-danger);"><i class="fa-solid fa-flask"></i></div>
+                    <h4 class="mb-1">Research & Academia</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">28 Fellowships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+                 <div class="glass-card">
+                    <div class="stat-card-icon" style="background:rgba(6,182,212,0.15);color:var(--clr-info);"><i class="fa-solid fa-palette"></i></div>
+                    <h4 class="mb-1">Arts & Design</h4>
+                    <p class="text-muted mb-4" style="font-size:1.05rem;">15 Scholarships available</p>
+                    <button class="btn btn-ghost btn-sm w-full">View Details</button>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <h3 class="mb-4 animate-fade-up delay-4">Career Resources</h3>
+            <div class="three-col-grid animate-fade-up delay-5">
+                <div class="glass-card flex gap-4" style="align-items:center;">
+                    <div class="stat-card-icon" style="margin:0;flex-shrink:0;"><i class="fa-solid fa-file-lines"></i></div>
+                    <div>
+                        <h4 style="margin-bottom:2px;">Resume Builder</h4>
+                        <div class="text-muted" style="font-size:0.95rem;margin-bottom:8px;">AI-powered CV creation</div>
+                        <a href="#" class="text-primary" style="font-size:1.05rem;font-weight:600;">Start Building &rarr;</a>
+                    </div>
+                </div>
+                <div class="glass-card flex gap-4" style="align-items:center;">
+                    <div class="stat-card-icon" style="margin:0;flex-shrink:0;"><i class="fa-solid fa-users"></i></div>
+                    <div>
+                        <h4 style="margin-bottom:2px;">Interview Prep</h4>
+                        <div class="text-muted" style="font-size:0.95rem;margin-bottom:8px;">Mock interviews via AI</div>
+                        <a href="#" class="text-primary" style="font-size:1.05rem;font-weight:600;">Practice Now &rarr;</a>
+                    </div>
+                </div>
+                <div class="glass-card flex gap-4" style="align-items:center;">
+                    <div class="stat-card-icon" style="margin:0;flex-shrink:0;"><i class="fa-brands fa-linkedin"></i></div>
+                    <div>
+                        <h4 style="margin-bottom:2px;">LinkedIn Opt.</h4>
+                        <div class="text-muted" style="font-size:0.95rem;margin-bottom:8px;">Enhance your profile</div>
+                        <a href="#" class="text-primary" style="font-size:1.05rem;font-weight:600;">Review Profile &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/core/api.js"></script>
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function handleLogout(e) {
+    e.preventDefault();
+    if (typeof API !== 'undefined' && API.logout) API.logout();
+    else { localStorage.clear(); window.location.href = 'login.html'; }
+}
+</script>
+</body>
+</html>

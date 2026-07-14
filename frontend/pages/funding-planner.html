@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Planner | EduBridge AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobileTopbar">
+    <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <span style="font-family:var(--font-display);font-weight:800;font-size:1.1rem;">EduBridge AI</span>
+    <div class="avatar" style="width:36px;height:36px;font-size:1.05rem;">S</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="dashboard-layout">
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../../index.html" class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="sidebar-brand-text">EduBridge AI</span>
+        </a>
+
+        <span class="sidebar-section-label">Main Navigation</span>
+        
+        <a href="student-dashboard.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-house"></i></div>
+            <span>Dashboard</span>
+        </a>
+        <a href="scholarships.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+            <span>Explore Scholarships</span>
+        </a>
+        <a href="applications.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <span>My Applications</span>
+        </a>
+        <span class="sidebar-section-label">Tools</span>
+        <a href="funding-planner.html" class="nav-item active">
+            <div class="nav-item-icon"><i class="fa-solid fa-calculator"></i></div>
+            <span>Funding Planner</span>
+        </a>
+        <a href="ai-chat.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <span>AI Assistant</span>
+        </a>
+        <a href="career.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <span>Career Guidance</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <span>Document Vault</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout(event)">
+                <div class="nav-item-icon" style="color:var(--clr-danger)"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
+        <div class="page-content">
+            
+            <div class="top-header animate-fade-up">
+                <div>
+                    <h1 class="page-title">Funding Planner</h1>
+                    <p class="page-subtitle">Calculate and plan your education finances effectively.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid animate-fade-up delay-1">
+                <!-- LEFT: INPUT FORM -->
+                <div class="glass-card">
+                    <h3 class="mb-4">Financial Inputs</h3>
+                    <div class="two-col-form" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Total Course Fee (₹)</label>
+                            <input type="number" id="feeInput" class="form-control" value="500000" oninput="calcFunding()">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Duration (Years)</label>
+                            <input type="number" id="durationInput" class="form-control" value="4" oninput="calcFunding()">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Family Annual Income (₹)</label>
+                            <input type="number" id="incomeInput" class="form-control" value="300000" oninput="calcFunding()">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Expected Scholarships (₹)</label>
+                            <input type="number" id="schInput" class="form-control" value="150000" oninput="calcFunding()">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Self Funding / Savings (₹)</label>
+                            <input type="number" id="selfInput" class="form-control" value="50000" oninput="calcFunding()">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-full mt-6" onclick="calcFunding()"><i class="fa-solid fa-calculator"></i> Calculate Plan</button>
+                </div>
+
+                <!-- RIGHT: RESULTS -->
+                <div class="glass-card text-center flex-col gap-4">
+                    <h3>Funding Breakdown</h3>
+                    
+                    <div style="position:relative;height:180px;width:100%;display:flex;justify-content:center;">
+                        <canvas id="fundingChart"></canvas>
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:1.5rem;" id="gapLabel">...</div>
+                    </div>
+                    
+                    <div class="divider"></div>
+
+                    <div class="flex-between">
+                        <span class="text-muted">Funding Gap (Loan Needed)</span>
+                        <strong class="text-danger" style="font-size:1.2rem;" id="resGap">₹3,00,000</strong>
+                    </div>
+                    <div class="flex-between">
+                        <span class="text-muted">Estimated EMI (8% over 5yrs)</span>
+                        <strong style="font-size:1.1rem;" id="resEmi">₹6,082 /mo</strong>
+                    </div>
+                     <div class="flex-between">
+                        <span class="text-muted">Scholarship Coverage</span>
+                        <strong class="text-success" id="resCov">30%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIPS -->
+            <h3 class="mb-4 mt-6 animate-fade-up delay-2">Quick Financial Tips</h3>
+            <div class="three-col-grid animate-fade-up delay-3">
+                <div class="glass-card">
+                    <div class="stat-card-icon purple"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4 class="mb-2">Maximize Scholarships</h4>
+                    <p class="text-muted" style="font-size:1.05rem;">You are covering 30% of your fee via scholarships. Try applying to Corporate CSR grants to push this to 50%.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="stat-card-icon blue"><i class="fa-solid fa-building-columns"></i></div>
+                    <h4 class="mb-2">Education Loans</h4>
+                    <p class="text-muted" style="font-size:1.05rem;">With a family income of ₹3L, you are eligible for the Vidyalakshmi portal interest-subsidy schemes (CSIS).</p>
+                </div>
+                <div class="glass-card">
+                    <div class="stat-card-icon green"><i class="fa-solid fa-piggy-bank"></i></div>
+                    <h4 class="mb-2">Smart Savings</h4>
+                    <p class="text-muted" style="font-size:1.05rem;">Investing a small amount monthly in recurring deposits can help offset your living expenses during studies.</p>
+                </div>
+            </div>
+
+            <script>
+                let chart = null;
+                function calcFunding() {
+                    const fee = parseFloat(document.getElementById('feeInput').value) || 0;
+                    const sch = parseFloat(document.getElementById('schInput').value) || 0;
+                    const self = parseFloat(document.getElementById('selfInput').value) || 0;
+                    
+                    let gap = fee - sch - self;
+                    if(gap < 0) gap = 0;
+                    
+                    document.getElementById('resGap').innerText = "₹" + gap.toLocaleString('en-IN');
+                    
+                    // Simple EMI roughly: gap * (rate)
+                    const r = 0.08 / 12; // 8% monthly
+                    const n = 60; // 5 years
+                    let emi = 0;
+                    if(gap > 0) {
+                        emi = gap * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+                    }
+                    document.getElementById('resEmi').innerText = "₹" + Math.round(emi).toLocaleString('en-IN') + " /mo";
+                    
+                    const cov = fee > 0 ? Math.round((sch / fee) * 100) : 0;
+                    document.getElementById('resCov').innerText = cov + "%";
+                    
+                    document.getElementById('gapLabel').innerText = gap > 0 ? "Gap" : "Funded";
+                    document.getElementById('gapLabel').style.color = gap > 0 ? "var(--clr-danger)" : "var(--clr-success)";
+
+                    updateChart(sch, self, gap);
+                }
+
+                function updateChart(sch, self, gap) {
+                    const ctx = document.getElementById('fundingChart').getContext('2d');
+                    if(chart) chart.destroy();
+                    chart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Scholarships', 'Self Funding', 'Gap (Loan)'],
+                            datasets: [{
+                                data: [sch, self, gap],
+                                backgroundColor: ['#10B981', '#3B82F6', '#EF4444'],
+                                borderWidth: 0,
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '75%',
+                            plugins: {
+                                legend: { display: false }
+                            }
+                        }
+                    });
+                }
+                setTimeout(calcFunding, 500);
+            </script>
+
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/core/api.js"></script>
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function handleLogout(e) {
+    e.preventDefault();
+    if (typeof API !== 'undefined' && API.logout) API.logout();
+    else { localStorage.clear(); window.location.href = 'login.html'; }
+}
+</script>
+</body>
+</html>

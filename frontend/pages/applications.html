@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications | EduBridge AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobileTopbar">
+    <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <span style="font-family:var(--font-display);font-weight:800;font-size:1.1rem;">EduBridge AI</span>
+    <div class="avatar" style="width:36px;height:36px;font-size:1.05rem;">S</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="dashboard-layout">
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../../index.html" class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="sidebar-brand-text">EduBridge AI</span>
+        </a>
+
+        <span class="sidebar-section-label">Main Navigation</span>
+        
+        <a href="student-dashboard.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-house"></i></div>
+            <span>Dashboard</span>
+        </a>
+        <a href="scholarships.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+            <span>Explore Scholarships</span>
+        </a>
+        <a href="applications.html" class="nav-item active">
+            <div class="nav-item-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <span>My Applications</span>
+        </a>
+        <span class="sidebar-section-label">Tools</span>
+        <a href="funding-planner.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-calculator"></i></div>
+            <span>Funding Planner</span>
+        </a>
+        <a href="ai-chat.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <span>AI Assistant</span>
+        </a>
+        <a href="career.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <span>Career Guidance</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <span>Document Vault</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout(event)">
+                <div class="nav-item-icon" style="color:var(--clr-danger)"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
+        <div class="page-content">
+            
+            <div class="top-header animate-fade-up">
+                <div>
+                    <h1 class="page-title">My Applications</h1>
+                    <p class="page-subtitle">Track and manage your scholarship submissions.</p>
+                </div>
+                <div class="header-actions">
+                    <a href="scholarships.html" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> New Application
+                    </a>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid animate-fade-up delay-1">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue"><i class="fa-solid fa-file-contract"></i></div>
+                    <div class="stat-card-value">6</div>
+                    <div class="stat-card-label">Total Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon orange"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-card-value">2</div>
+                    <div class="stat-card-label">Under Review</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon green"><i class="fa-solid fa-check-circle"></i></div>
+                    <div class="stat-card-value">1</div>
+                    <div class="stat-card-label">Approved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background:rgba(239,68,68,0.15);color:var(--clr-danger);"><i class="fa-solid fa-xmark-circle"></i></div>
+                    <div class="stat-card-value">1</div>
+                    <div class="stat-card-label">Rejected</div>
+                </div>
+            </div>
+
+            <!-- FILTER BAR -->
+            <div class="filter-bar animate-fade-up delay-2">
+                <div class="filter-search input-icon-wrap">
+                    <i class="input-icon fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="form-control" placeholder="Search applications...">
+                </div>
+                <select class="filter-select">
+                    <option value="">All Statuses</option>
+                    <option value="approved">Approved</option>
+                    <option value="under_review">Under Review</option>
+                    <option value="submitted">Submitted</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-filter"></i> Filter</button>
+            </div>
+
+            <!-- APPS LIST -->
+            <div class="flex-col gap-4 animate-fade-up delay-3">
+                
+                <div class="glass-card flex-between" style="padding:var(--sp-4) var(--sp-5);">
+                    <div class="flex gap-4" style="align-items:center; flex:1;">
+                        <div class="stat-card-icon purple" style="width:48px;height:48px;margin:0;"><i class="fa-solid fa-landmark"></i></div>
+                        <div>
+                            <h3 style="margin-bottom:2px;">NSP Scholarship</h3>
+                            <div class="text-muted" style="font-size:1.05rem;">Central Govt • Applied: 10 Oct 2024</div>
+                        </div>
+                    </div>
+                    <div style="width:120px;"><div class="badge badge-warning">Under Review</div></div>
+                    <div style="width:100px;font-weight:700;">₹50,000</div>
+                    <div style="width:120px;text-align:right;">
+                        <button class="btn btn-ghost btn-sm">View Details</button>
+                    </div>
+                </div>
+
+                <div class="glass-card flex-between" style="padding:var(--sp-4) var(--sp-5);">
+                    <div class="flex gap-4" style="align-items:center; flex:1;">
+                        <div class="stat-card-icon blue" style="width:48px;height:48px;margin:0;"><i class="fa-solid fa-building"></i></div>
+                        <div>
+                            <h3 style="margin-bottom:2px;">Tata Capital Pankh</h3>
+                            <div class="text-muted" style="font-size:1.05rem;">Corporate CSR • Applied: 05 Sep 2024</div>
+                        </div>
+                    </div>
+                    <div style="width:120px;"><div class="badge badge-success">Approved</div></div>
+                    <div style="width:100px;font-weight:700;">₹12,000</div>
+                    <div style="width:120px;text-align:right;">
+                        <button class="btn btn-primary btn-sm">Claim Fund</button>
+                    </div>
+                </div>
+
+                <div class="glass-card flex-between" style="padding:var(--sp-4) var(--sp-5);">
+                    <div class="flex gap-4" style="align-items:center; flex:1;">
+                        <div class="stat-card-icon green" style="width:48px;height:48px;margin:0;"><i class="fa-solid fa-leaf"></i></div>
+                        <div>
+                            <h3 style="margin-bottom:2px;">INSPIRE DST</h3>
+                            <div class="text-muted" style="font-size:1.05rem;">Central Govt • Applied: 01 Nov 2024</div>
+                        </div>
+                    </div>
+                    <div style="width:120px;"><div class="badge badge-info">Submitted</div></div>
+                    <div style="width:100px;font-weight:700;">₹80,000</div>
+                    <div style="width:120px;text-align:right;">
+                        <button class="btn btn-ghost btn-sm">View Details</button>
+                    </div>
+                </div>
+                
+                 <div class="glass-card flex-between" style="padding:var(--sp-4) var(--sp-5);">
+                    <div class="flex gap-4" style="align-items:center; flex:1;">
+                        <div class="stat-card-icon" style="background:rgba(239,68,68,0.15);color:var(--clr-danger);width:48px;height:48px;margin:0;"><i class="fa-solid fa-xmark"></i></div>
+                        <div>
+                            <h3 style="margin-bottom:2px;">PM-YASASVI</h3>
+                            <div class="text-muted" style="font-size:1.05rem;">Central Govt • Applied: 15 Aug 2024</div>
+                        </div>
+                    </div>
+                    <div style="width:120px;"><div class="badge badge-danger">Rejected</div></div>
+                    <div style="width:100px;font-weight:700;">₹20,000</div>
+                    <div style="width:120px;text-align:right;">
+                        <button class="btn btn-ghost btn-sm">Read Reason</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/core/api.js"></script>
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function handleLogout(e) {
+    e.preventDefault();
+    if (typeof API !== 'undefined' && API.logout) API.logout();
+    else { localStorage.clear(); window.location.href = 'login.html'; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBridge AI | The AI Financial Copilot for Education</title>
+    <link rel="stylesheet" href="./frontend/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108,71,255,0.2) 0%, rgba(10,10,15,0) 70%);
+            z-index: -1;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+        .features {
+            padding: 80px 0;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(108, 71, 255, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .stats {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.01);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i class="fa-solid fa-bridge-water text-gradient"></i> EduBridge AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="./frontend/pages/login.html" class="btn btn-outline">Log in</a>
+                <a href="./frontend/pages/register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero animate-fade-in">
+        <div class="container">
+            <h1>The AI Financial Copilot <br> <span class="text-gradient">for Education</span></h1>
+            <p>Discover funding, predict financial risk, and automate scholarship applications with India's most advanced AI education platform.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="./frontend/pages/register.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Find Scholarships Now <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></a>
+                <a href="#features" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container stats-grid">
+            <div>
+                <div class="stat-number text-gradient-light">200+</div>
+                <div class="text-muted">Active Scholarships</div>
+            </div>
+            <div>
+                <div class="stat-number text-gradient-light">₹5M+</div>
+                <div class="text-muted">Funding Disbursed</div>
+            </div>
+            <div>
+                <div class="stat-number text-gradient-light">50k+</div>
+                <div class="text-muted">Students Supported</div>
+            </div>
+            <div>
+                <div class="stat-number text-gradient-light">99%</div>
+                <div class="text-muted">Match Accuracy</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features container">
+        <h2 class="text-center" style="font-size: 2.5rem; margin-bottom: 1rem;">Powered by Advanced AI</h2>
+        <p class="text-center text-muted" style="max-width: 600px; margin: 0 auto;">Our intelligent engine works 24/7 to ensure no student drops out due to financial constraints.</p>
+        
+        <div class="features-grid">
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3>AI Recommendation Engine</h3>
+                <p class="text-muted mt-1">Cosine similarity algorithms match your unique profile with the perfect scholarships across government, CSR, and NGO databases.</p>
+            </div>
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Dropout Risk Prediction</h3>
+                <p class="text-muted mt-1">Predictive analytics assess financial and academic variables to identify at-risk students before they drop out.</p>
+            </div>
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-file-shield"></i></div>
+                <h3>OCR Document Verification</h3>
+                <p class="text-muted mt-1">Instantly verify marksheets, income certificates, and IDs using vision models, with built-in fraud detection.</p>
+            </div>
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+                <h3>Intelligent Chat Assistant</h3>
+                <p class="text-muted mt-1">Get 24/7 answers to your scholarship queries through our context-aware, knowledge-base driven AI chatbot.</p>
+            </div>
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                <h3>AI Essay Generator</h3>
+                <p class="text-muted mt-1">Overcome writer's block with personalized Statement of Purpose (SOP) and scholarship essay generation.</p>
+            </div>
+            <div class="glass-card">
+                <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+                <h3>Smart Funding Planner</h3>
+                <p class="text-muted mt-1">Automatically distribute your tuition fee across scholarships, education loans, and institutional installment plans.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border-color); margin-top: 60px; color: var(--text-muted);">
+        <p>&copy; 2024 EduBridge AI. Built for the Hackathon.</p>
+    </footer>
+</body>
+</html>

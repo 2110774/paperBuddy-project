@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | EduBridge AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 500px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .role-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .role-card:hover {
+            border-color: var(--primary);
+            background: rgba(108,71,255,0.05);
+        }
+        .role-card.active {
+            border-color: var(--primary);
+            background: rgba(108,71,255,0.1);
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="glass-card auth-card animate-fade-in">
+            <div class="auth-header">
+                <a href="../../index.html" class="nav-brand" style="justify-content: center; margin-bottom: 1rem;">
+                    <i class="fa-solid fa-bridge-water text-gradient"></i> EduBridge AI
+                </a>
+                <h1>Create an Account</h1>
+                <p class="text-muted">Join the AI-powered education ecosystem</p>
+            </div>
+
+            <form id="registerForm">
+                <label class="form-label">I am a...</label>
+                <div class="role-selector" id="roleSelector">
+                    <div class="role-card active" data-role="student">
+                        <i class="fa-solid fa-user-graduate" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--primary);"></i>
+                        <div>Student</div>
+                    </div>
+                    <div class="role-card" data-role="school">
+                        <i class="fa-solid fa-building-columns" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--secondary);"></i>
+                        <div>Institution / School</div>
+                    </div>
+                    <div class="role-card" data-role="donor">
+                        <i class="fa-solid fa-hand-holding-dollar" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--success);"></i>
+                        <div>Donor / CSR</div>
+                    </div>
+                    <div class="role-card" data-role="parent">
+                        <i class="fa-solid fa-users" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--warning);"></i>
+                        <div>Parent</div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" id="firstName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group" id="orgNameGroup" style="display: none;">
+                    <label class="form-label">Organization / Institution Name</label>
+                    <input type="text" id="orgName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required minlength="6">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted" style="font-size: 0.875rem;">
+                    Already have an account? <a href="login.html" style="color: var(--primary); text-decoration: none;">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script>
+        let selectedRole = 'student';
+
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedRole = card.dataset.role;
+                
+                const orgGroup = document.getElementById('orgNameGroup');
+                if (['school', 'donor'].includes(selectedRole)) {
+                    orgGroup.style.display = 'block';
+                    document.getElementById('orgName').required = true;
+                } else {
+                    orgGroup.style.display = 'none';
+                    document.getElementById('orgName').required = false;
+                }
+            });
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating...';
+            btn.disabled = true;
+
+            const payload = {
+                role: selectedRole,
+                first_name: document.getElementById('firstName').value,
+                last_name: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                organization_name: document.getElementById('orgName').value,
+            };
+
+            try {
+                const data = await API.request('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                UI.showToast('Registration successful! Please login.', 'success');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+            } catch (error) {
+                UI.showToast(error.message, 'error');
+                btn.innerHTML = 'Create Account <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

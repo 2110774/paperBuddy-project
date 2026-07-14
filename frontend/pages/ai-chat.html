@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant | EduBridge AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobileTopbar">
+    <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <span style="font-family:var(--font-display);font-weight:800;font-size:1.1rem;">EduBridge AI</span>
+    <div class="avatar" style="width:36px;height:36px;font-size:1.05rem;">S</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="dashboard-layout">
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../../index.html" class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="sidebar-brand-text">EduBridge AI</span>
+        </a>
+
+        <span class="sidebar-section-label">Main Navigation</span>
+        
+        <a href="student-dashboard.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-house"></i></div>
+            <span>Dashboard</span>
+        </a>
+        <a href="scholarships.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+            <span>Explore Scholarships</span>
+        </a>
+        <a href="applications.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <span>My Applications</span>
+        </a>
+        <span class="sidebar-section-label">Tools</span>
+        <a href="funding-planner.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-calculator"></i></div>
+            <span>Funding Planner</span>
+        </a>
+        <a href="ai-chat.html" class="nav-item active">
+            <div class="nav-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <span>AI Assistant</span>
+        </a>
+        <a href="career.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <span>Career Guidance</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <span>Document Vault</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout(event)">
+                <div class="nav-item-icon" style="color:var(--clr-danger)"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
+        <div class="page-content">
+            
+            <div class="top-header animate-fade-up">
+                <div>
+                    <h1 class="page-title">AI Financial Assistant</h1>
+                    <p class="page-subtitle">Ask anything about scholarships, deadlines, and financial aid.</p>
+                </div>
+            </div>
+
+            <div class="chat-layout animate-fade-up delay-1">
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatWindow">
+                    
+                    <div class="chat-bubble ai">
+                        <div style="font-weight:700;margin-bottom:6px;color:var(--text-primary);"><i class="fa-solid fa-robot"></i> EduBridge AI</div>
+                        Welcome! I am your AI financial copilot. I can help you find scholarships, plan your finances, and guide your applications. What would you like to know?
+                    </div>
+
+                    <div class="chat-bubble user">
+                        What scholarships are available for engineering students from UP?
+                    </div>
+
+                    <div class="chat-bubble ai">
+                        <div style="font-weight:700;margin-bottom:6px;color:var(--text-primary);"><i class="fa-solid fa-robot"></i> EduBridge AI</div>
+                        Based on your profile (Engineering student in Uttar Pradesh), here are the top 4 scholarships you should target:
+                        <ul style="margin-top:10px;padding-left:20px;">
+                            <li style="margin-bottom:8px;"><strong>UP State Scholarship Portal (Post-Matric):</strong> Covers up to ₹50,000 annually. Open for SC/ST/OBC/Gen(EWS).</li>
+                            <li style="margin-bottom:8px;"><strong>AICTE PRAGATI:</strong> For female engineering students (₹50,000/year).</li>
+                            <li style="margin-bottom:8px;"><strong>NSP Post Matric (Central):</strong> General post-matric scheme.</li>
+                            <li style="margin-bottom:8px;"><strong>HDFC Badhte Kadam (Corporate):</strong> CSR initiative for general undergrads.</li>
+                        </ul>
+                        Would you like the direct application links for any of these?
+                    </div>
+
+                </div>
+
+                <!-- Suggested Prompts -->
+                <div style="padding:var(--sp-2) var(--sp-5);display:flex;gap:var(--sp-2);overflow-x:auto;">
+                    <button class="badge badge-neutral" style="cursor:pointer;font-weight:500;padding:6px 12px;text-transform:none;" onclick="sendMockMsg('Calculate my funding gap for 4 years')">Calculate my funding gap</button>
+                    <button class="badge badge-neutral" style="cursor:pointer;font-weight:500;padding:6px 12px;text-transform:none;" onclick="sendMockMsg('What documents do I need for NSP?')">Documents needed for NSP?</button>
+                    <button class="badge badge-neutral" style="cursor:pointer;font-weight:500;padding:6px 12px;text-transform:none;" onclick="sendMockMsg('Find scholarships matching my profile')">Find scholarships for my profile</button>
+                </div>
+
+                <!-- Input Area -->
+                <div class="chat-input-bar">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Ask EduBridge AI..." onkeypress="handleEnter(event)">
+                    <button class="btn btn-primary" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <script>
+                function handleEnter(e) {
+                    if(e.key === 'Enter') sendMessage();
+                }
+
+                function sendMockMsg(text) {
+                    document.getElementById('chatInput').value = text;
+                    sendMessage();
+                }
+
+                function sendMessage() {
+                    const input = document.getElementById('chatInput');
+                    const text = input.value.trim();
+                    if(!text) return;
+
+                    const chat = document.getElementById('chatWindow');
+                    
+                    // User message
+                    const userDiv = document.createElement('div');
+                    userDiv.className = 'chat-bubble user animate-fade-up';
+                    userDiv.innerText = text;
+                    chat.appendChild(userDiv);
+
+                    input.value = '';
+                    chat.scrollTop = chat.scrollHeight;
+
+                    // Fake AI response
+                    setTimeout(() => {
+                        const aiDiv = document.createElement('div');
+                        aiDiv.className = 'chat-bubble ai animate-fade-up';
+                        aiDiv.innerHTML = `<div style="font-weight:700;margin-bottom:6px;color:var(--text-primary);"><i class="fa-solid fa-robot"></i> EduBridge AI</div>` + 
+                            `I'm currently running in a demo environment. In production, I would connect to the Gemini API to analyze your query: "<i>${text}</i>" and provide real-time personalized guidance from the EduBridge scholarship database.`;
+                        chat.appendChild(aiDiv);
+                        chat.scrollTop = chat.scrollHeight;
+                    }, 800);
+                }
+            </script>
+
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/core/api.js"></script>
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+function handleLogout(e) {
+    e.preventDefault();
+    if (typeof API !== 'undefined' && API.logout) API.logout();
+    else { localStorage.clear(); window.location.href = 'login.html'; }
+}
+</script>
+</body>
+</html>

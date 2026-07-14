@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | EduBridge AI</title>
+    <meta name="description" content="Your personal AI-powered scholarship and financial aid dashboard.">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobileTopbar">
+    <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <span style="font-family: var(--font-display); font-weight: 800; font-size: 1.1rem;">EduBridge AI</span>
+    <div class="avatar" id="mobileAvatar" style="width:36px;height:36px;font-size:1.05rem;">S</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="dashboard-layout">
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../../index.html" class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="sidebar-brand-text">EduBridge AI</span>
+        </a>
+
+        <span class="sidebar-section-label">Main Navigation</span>
+
+        <a href="student-dashboard.html" class="nav-item active">
+            <div class="nav-item-icon"><i class="fa-solid fa-house"></i></div>
+            <span>Dashboard</span>
+        </a>
+        <a href="scholarships.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+            <span>Explore Scholarships</span>
+        </a>
+        <a href="applications.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <span>My Applications</span>
+        </a>
+
+        <span class="sidebar-section-label">Tools</span>
+
+        <a href="funding-planner.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-calculator"></i></div>
+            <span>Funding Planner</span>
+        </a>
+        <a href="ai-chat.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-robot"></i></div>
+            <span>AI Assistant</span>
+        </a>
+        <a href="career.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <span>Career Guidance</span>
+        </a>
+        <a href="documents.html" class="nav-item">
+            <div class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></div>
+            <span>Document Vault</span>
+        </a>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout(event)">
+                <div class="nav-item-icon" style="color:var(--clr-danger)"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content">
+        <div class="page-content">
+
+            <!-- Top Header -->
+            <div class="top-header animate-fade-up">
+                <div>
+                    <h1 class="page-title" id="welcomeTitle">Welcome back 👋</h1>
+                    <p class="page-subtitle" id="pageSubtitle">Here's your scholarship & financial overview for today.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-icon" title="Notifications" id="notifBtn">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+                    <div class="user-chip" id="userChip">
+                        <div class="avatar" id="userAvatar">S</div>
+                        <div>
+                            <div id="userName" style="font-weight:600;font-size:1.1rem;line-height:1.2;">Student</div>
+                            <div style="font-size:1.1rem;color:var(--text-muted)">Profile: <span id="profileCompletion" style="color:var(--clr-success);font-weight:600;">0%</span></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down" style="font-size:1.05rem;color:var(--text-dim);margin-left:4px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── STAT CARDS ── -->
+            <div class="stats-grid">
+                <!-- Financial Health -->
+                <div class="stat-card animate-fade-up delay-1">
+                    <div class="stat-card-icon purple"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="stat-card-value text-gradient" id="healthScore">78</div>
+                    <div class="stat-card-label">Financial Health Score</div>
+                    <div class="stat-card-change up" id="healthChange"><i class="fa-solid fa-arrow-trend-up"></i> +5 this month</div>
+                </div>
+                <!-- Applications -->
+                <div class="stat-card animate-fade-up delay-2">
+                    <div class="stat-card-icon blue"><i class="fa-solid fa-file-contract"></i></div>
+                    <div class="stat-card-value" id="appTotal">0</div>
+                    <div class="stat-card-label">Total Applications</div>
+                    <div class="stat-card-change up"><i class="fa-solid fa-arrow-trend-up"></i> <span id="appReview">0</span> under review</div>
+                </div>
+                <!-- Approved -->
+                <div class="stat-card animate-fade-up delay-3">
+                    <div class="stat-card-icon green"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-card-value" id="appApproved">0</div>
+                    <div class="stat-card-label">Scholarships Approved</div>
+                    <div class="stat-card-change up" style="color:var(--clr-success)"><i class="fa-solid fa-trophy"></i> Keep it up!</div>
+                </div>
+                <!-- AI Matches -->
+                <div class="stat-card animate-fade-up delay-4" style="background:linear-gradient(135deg,rgba(124,77,255,0.15),rgba(59,130,246,0.08));border-color:rgba(124,77,255,0.25);">
+                    <div class="stat-card-icon orange"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div class="stat-card-value text-gradient">12</div>
+                    <div class="stat-card-label">AI Matched Scholarships</div>
+                    <div class="stat-card-change up" style="color:var(--clr-primary-light)"><i class="fa-solid fa-sparkles"></i> 80%+ match rate</div>
+                </div>
+            </div>
+
+            <!-- ── MAIN DASHBOARD GRID ── -->
+            <div class="dashboard-grid">
+
+                <!-- Left: Chart -->
+                <div class="glass-card animate-fade-up delay-2">
+                    <div class="flex-between mb-4">
+                        <div>
+                            <h3 style="margin-bottom:4px;">Application Timeline</h3>
+                            <p style="font-size:1.05rem;">Your submissions over the last 6 months</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn btn-ghost btn-sm" id="chartToggleBar" onclick="switchChart('bar')">Bar</button>
+                            <button class="btn btn-secondary btn-sm" id="chartToggleLine" onclick="switchChart('line')">Line</button>
+                        </div>
+                    </div>
+                    <div style="position:relative;height:260px;width:100%;">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+
+                    <!-- Mini Progress Section -->
+                    <div class="divider"></div>
+                    <div class="three-col-grid" style="gap:var(--sp-5)">
+                        <div>
+                            <div class="flex-between mb-2" style="font-size:.95rem;">
+                                <span style="color:var(--text-muted)">Profile</span>
+                                <span style="font-weight:700" id="profilePct">85%</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar" id="profileBar" style="width:85%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between mb-2" style="font-size:.95rem;">
+                                <span style="color:var(--text-muted)">Docs Verified</span>
+                                <span style="font-weight:700">60%</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar" style="width:60%;background:var(--grad-success)"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex-between mb-2" style="font-size:.95rem;">
+                                <span style="color:var(--text-muted)">Goal Funded</span>
+                                <span style="font-weight:700">42%</span>
+                            </div>
+                            <div class="progress-bar-wrap"><div class="progress-bar" style="width:42%;background:linear-gradient(135deg,var(--clr-warning),var(--clr-accent))"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Score + Notifications -->
+                <div class="flex-col gap-6">
+
+                    <!-- Score Ring -->
+                    <div class="glass-card animate-fade-up delay-3 text-center">
+                        <h3 style="margin-bottom:var(--sp-5);">Financial Health</h3>
+                        <div class="score-ring-wrap">
+                            <div class="score-ring" id="scoreRing" style="--pct:78">
+                                <div class="score-inner">
+                                    <div class="score-value" id="scoreVal">78</div>
+                                    <div class="score-label">/ 100</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="badge badge-success" id="scoreBadge">Good Standing</div>
+                                <p style="font-size:1rem;margin-top:var(--sp-2);color:var(--text-muted)">Minor risk detected. Complete your profile to improve.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="glass-card animate-fade-up delay-4" style="flex:1">
+                        <div class="flex-between mb-4">
+                            <h3>Notifications</h3>
+                            <span class="badge badge-primary">Live</span>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div class="text-center" style="padding:var(--sp-8);color:var(--text-muted)">
+                                <i class="fa-solid fa-circle-notch fa-spin" style="font-size:1.5rem;margin-bottom:var(--sp-3);display:block;"></i>
+                                Loading notifications...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── AI RECOMMENDATIONS BANNER ── -->
+            <div class="animate-fade-up delay-3" style="
+                background: linear-gradient(135deg, rgba(124,77,255,0.15) 0%, rgba(59,130,246,0.1) 100%);
+                border: 1px solid rgba(124,77,255,0.25);
+                border-radius: var(--r-2xl);
+                padding: var(--sp-8);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: var(--sp-6);
+                position: relative;
+                overflow: hidden;
+                margin-bottom: var(--sp-8);
+            ">
+                <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(124,77,255,0.25) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+                <div style="position:absolute;bottom:-60px;left:40%;width:200px;height:200px;background:radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+                <div style="position:relative;z-index:1;">
+                    <div class="badge badge-primary mb-4" style="margin-bottom:var(--sp-3);">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> AI Powered
+                    </div>
+                    <h2 style="font-size:1.6rem;margin-bottom:var(--sp-2);">12 Perfect Scholarship Matches Found</h2>
+                    <p style="color:var(--text-muted);max-width:500px;">Our AI analyzed your academic profile and found scholarships with over 80% match probability. Don't miss these opportunities!</p>
+                </div>
+                <div style="position:relative;z-index:1;flex-shrink:0;">
+                    <a href="scholarships.html" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-arrow-right"></i> Explore Matches
+                    </a>
+                </div>
+            </div>
+
+            <!-- ── QUICK ACTIONS ── -->
+            <h3 style="margin-bottom:var(--sp-5);">Quick Actions</h3>
+            <div class="three-col-grid animate-fade-up delay-4">
+                <a href="scholarships.html" class="glass-card" style="text-decoration:none;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-5);">
+                    <div class="stat-card-icon purple" style="margin-bottom:0;flex-shrink:0;"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px;">Browse Scholarships</div>
+                        <div style="font-size:1rem;color:var(--text-muted);">100+ opportunities</div>
+                    </div>
+                </a>
+                <a href="ai-chat.html" class="glass-card" style="text-decoration:none;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-5);">
+                    <div class="stat-card-icon blue" style="margin-bottom:0;flex-shrink:0;"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px;">Ask AI Assistant</div>
+                        <div style="font-size:1rem;color:var(--text-muted);">Get personalized advice</div>
+                    </div>
+                </a>
+                <a href="documents.html" class="glass-card" style="text-decoration:none;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-5);">
+                    <div class="stat-card-icon green" style="margin-bottom:0;flex-shrink:0;"><i class="fa-solid fa-folder-open"></i></div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px;">Upload Documents</div>
+                        <div style="font-size:1rem;color:var(--text-muted);">AI-verified instantly</div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/core/api.js"></script>
+<script>
+// ──────────────────────────────────────────────
+// Dashboard JS — EduBridge AI v3
+// ──────────────────────────────────────────────
+
+let chartInstance = null;
+const chartData = {
+    labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    values: [1, 2, 1, 3, 2, 4]
+};
+
+// Toggle Sidebar (mobile)
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('active');
+}
+
+// Toast system
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const icons = { success: 'fa-check-circle', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+    const colors = { success: 'var(--clr-success)', error: 'var(--clr-danger)', warning: 'var(--clr-warning)', info: 'var(--clr-primary-light)' };
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}" style="color:${colors[type]};font-size:1.1rem;flex-shrink:0;"></i> ${msg}`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = 'none';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(120%)';
+        toast.style.transition = 'all .3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// Logout
+function handleLogout(e) {
+    e.preventDefault();
+    if (typeof API !== 'undefined' && API.logout) {
+        API.logout();
+    } else {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+}
+
+// Switch chart type
+function switchChart(type) {
+    if (!chartInstance) return;
+    chartInstance.config.type = type;
+    chartInstance.update();
+    document.getElementById('chartToggleBar').className = type === 'bar' ? 'btn btn-secondary btn-sm' : 'btn btn-ghost btn-sm';
+    document.getElementById('chartToggleLine').className = type === 'line' ? 'btn btn-secondary btn-sm' : 'btn btn-ghost btn-sm';
+}
+
+// Build chart
+function buildChart(type = 'line') {
+    const ctx = document.getElementById('timelineChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, 260);
+    gradient.addColorStop(0, 'rgba(124,77,255,0.35)');
+    gradient.addColorStop(1, 'rgba(124,77,255,0.0)');
+
+    chartInstance = new Chart(ctx, {
+        type,
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Applications',
+                data: chartData.values,
+                borderColor: '#7C4DFF',
+                backgroundColor: type === 'line' ? gradient : 'rgba(124,77,255,0.5)',
+                borderWidth: 2.5,
+                fill: true,
+                tension: 0.45,
+                pointBackgroundColor: '#7C4DFF',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(14,14,22,0.95)',
+                    borderColor: 'rgba(124,77,255,0.4)',
+                    borderWidth: 1,
+                    titleColor: '#fff',
+                    bodyColor: '#B0B0C8',
+                    cornerRadius: 10,
+                    padding: 12
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#72728A', font: { size: 11 } },
+                    grid: { color: 'rgba(255,255,255,0.04)' }
+                },
+                x: {
+                    ticks: { color: '#72728A', font: { size: 11 } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// Render notifications
+function renderNotifications(notifications) {
+    const container = document.getElementById('notifList');
+    if (!notifications || !notifications.length) {
+        container.innerHTML = '<p style="color:var(--text-muted);font-size:1.05rem;text-align:center;padding:var(--sp-6)">No notifications yet.</p>';
+        return;
+    }
+    const iconMap = {
+        scholarship: { icon: 'fa-star', cls: 'purple' },
+        application:  { icon: 'fa-file', cls: 'yellow' },
+        system:       { icon: 'fa-bell', cls: 'green' }
+    };
+    container.innerHTML = notifications.slice(0, 5).map(n => {
+        const { icon, cls } = iconMap[n.type] || iconMap.system;
+        return `
+        <div class="notif-item">
+            <div class="notif-icon ${cls}"><i class="fa-solid ${icon}"></i></div>
+            <div>
+                <div style="font-weight:600;font-size:1.1rem;margin-bottom:2px;">${n.title}</div>
+                <div style="font-size:1rem;color:var(--text-muted);">${n.message}</div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// Update score ring
+function setScoreRing(score) {
+    document.getElementById('scoreRing').style.setProperty('--pct', score);
+    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('healthScore').textContent = score;
+    const badge = document.getElementById('scoreBadge');
+    if (score >= 75) { badge.textContent = 'Good Standing'; badge.className = 'badge badge-success'; }
+    else if (score >= 50) { badge.textContent = 'Fair'; badge.className = 'badge badge-warning'; }
+    else { badge.textContent = 'Needs Attention'; badge.className = 'badge badge-danger'; }
+}
+
+// Main init
+document.addEventListener('DOMContentLoaded', async () => {
+    // Auth check
+    let user = null;
+    if (typeof API !== 'undefined' && API.getUser) {
+        user = API.getUser();
+        if (!user) { window.location.href = 'login.html'; return; }
+    } else {
+        user = { first_name: 'Demo', last_name: 'User' };
+    }
+
+    // Set user info
+    document.getElementById('welcomeTitle').textContent = `Welcome back, ${user.first_name}! 👋`;
+    document.getElementById('userName').textContent = `${user.first_name} ${user.last_name}`;
+    const initial = user.first_name.charAt(0).toUpperCase();
+    document.getElementById('userAvatar').textContent = initial;
+    document.getElementById('mobileAvatar').textContent = initial;
+
+    // Build chart immediately
+    buildChart('line');
+
+    // Fetch data (with mock fallback)
+    let data;
+    try {
+        data = await API.request('/students/dashboard');
+    } catch {
+        data = {
+            financial_health_score: 78,
+            profile_completion: 85,
+            application_stats: { total: 4, under_review: 2, approved: 1, submitted: 1 },
+            notifications: [
+                { title: 'New Match Found',      message: 'HDFC Badhte Kadam matches your profile at 92%.', type: 'scholarship' },
+                { title: 'Application Update',   message: 'Tata Capital Scholarship is Under Review.',        type: 'application' },
+                { title: 'Document Verified',    message: 'Income certificate verified successfully via OCR.',type: 'system' },
+                { title: 'Deadline Reminder',    message: 'NSP Scholarship deadline is in 7 days!',           type: 'scholarship' }
+            ]
+        };
+    }
+
+    // Update UI
+    const score = data.financial_health_score || 78;
+    setScoreRing(score);
+
+    const pc = data.profile_completion || 85;
+    document.getElementById('profileCompletion').textContent = `${pc}%`;
+    document.getElementById('profilePct').textContent = `${pc}%`;
+    document.getElementById('profileBar').style.width = `${pc}%`;
+
+    if (data.application_stats) {
+        document.getElementById('appTotal').textContent    = data.application_stats.total    || 0;
+        document.getElementById('appReview').textContent   = data.application_stats.under_review || 0;
+        document.getElementById('appApproved').textContent = data.application_stats.approved  || 0;
+    }
+
+    renderNotifications(data.notifications);
+});
+</script>
+</body>
+</html>
